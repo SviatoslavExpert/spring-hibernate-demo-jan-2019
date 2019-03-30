@@ -27,6 +27,13 @@
 <body class="text-center">
   <spring:form class="form-signin" method="post" modelAttribute="userRegistration">
     <h1 class="h3 mb-3 font-weight-normal">Please enter your</h1>
+
+    <spring:errors path="*" cssStyle="color: red" cssClass="errorblock" element="div" />
+
+    <c:if test="${error != null}">
+        <p style="color: red">${error}</p>
+    </c:if>
+
     <label for="inputUsername" class="sr-only">Username</label>
     <spring:input path="username" id="inputUsername" class="form-control" placeholder="Username"/>
     <label for="inputPassword" class="sr-only">Password</label>

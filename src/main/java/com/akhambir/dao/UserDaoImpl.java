@@ -16,7 +16,7 @@ public class UserDaoImpl implements UserDao {
 
     public User getByUsername(String username) {
         return sessionFactory.getCurrentSession()
-                .createQuery("from User u where u.username =:username", User.class)
+                .createQuery("from User as u inner join fetch u.roles as r where u.username =:username", User.class)
                 .setParameter("username", username)
                 .uniqueResult();
     }

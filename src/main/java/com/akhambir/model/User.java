@@ -5,7 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "USERS")
@@ -23,6 +28,12 @@ public class User {
     private String firstName;
     @Column(name = "LAST_NAME")
     private String lastName;
+    @ManyToMany()
+    @JoinTable(name = "USERS_TO_ROLES",
+            joinColumns = @JoinColumn(name = "FK_USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "FK_ROLE_ID")
+    )
+    private List<Role> roles = new ArrayList<>();
 
     public User() {
     }
@@ -82,5 +93,13 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

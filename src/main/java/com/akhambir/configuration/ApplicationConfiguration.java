@@ -1,6 +1,7 @@
 package com.akhambir.configuration;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,11 +20,16 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
+import javax.servlet.SessionTrackingMode;
 import javax.sql.DataSource;
-import javax.transaction.TransactionManager;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Properties;
 
 @Configuration
@@ -40,6 +46,13 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter implements
         resolver.setSuffix(".jsp");
         return resolver;
     }
+
+    /*@Bean
+    public ResourceBundleMessageSource messageSource() {
+        ResourceBundleMessageSource ms = new ResourceBundleMessageSource();
+        ms.setBasename("messages");
+        return ms;
+    }*/
 
     @Bean
     public DataSource dataSource(Environment env) {
@@ -82,6 +95,8 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter implements
 
         ServletRegistration.Dynamic dispatcher = container
                 .addServlet("dispatcher", new DispatcherServlet(context));
+
+        container.setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
 
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");

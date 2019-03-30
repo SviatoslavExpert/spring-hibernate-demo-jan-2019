@@ -1,10 +1,18 @@
 package com.akhambir.controller.external.model;
 
+import com.akhambir.controller.validation.PasswordMatch;
 import com.akhambir.model.User;
 
+import javax.validation.constraints.Size;
+
+@PasswordMatch.List(value =
+        @PasswordMatch(fieldOne = "password", fieldTwo = "repeatPassword")
+)
 public class UserRegistration {
 
+    @Size(min = 6, message = "Username must be greater or equal to 8")
     private String username;
+    @Size(min = 6, message = "Password must be greater or equal to 8")
     private String password;
     private String repeatPassword;
     private String firstName;
